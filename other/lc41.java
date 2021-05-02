@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.other;
 
 
 class Solution41 {

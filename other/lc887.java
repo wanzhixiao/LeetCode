@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.other;
 
 class Solution887{
     public int superEggDrop(int k, int n) {

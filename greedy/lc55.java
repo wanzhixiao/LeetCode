@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.greedy;
 
 /*贪心算法之跳跃至尾部*/
 

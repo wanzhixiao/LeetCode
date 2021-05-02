@@ -1,7 +1,6 @@
-package leetcode;
+package leetcode.double_pointer;
 
 import java.util.Arrays;
-import java.util.Map;
 
 class Solution5739 {
 

@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.dp;
 
 /*
 * 力扣131
@@ -25,7 +25,6 @@ else dp[i][j] = false, if i!= j
 * */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
