@@ -22,7 +22,7 @@ class Solution1482 {
             return -1;
         }
 
-        //low和high是天数，不是数组中的某个数字或者下标
+        //left和right是天数，不是数组中的某个数字或者下标
         int left = 0; // 花开的最小天数
         int right = 0; // 花开的最大天数
         for(int i=0;i<n;i++){
