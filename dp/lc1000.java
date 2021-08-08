@@ -14,7 +14,7 @@ package dp;
 class Solution1000 {
     public int mergeStones(int[] stones, int k) {
         int n = stones.length;
-
+        //2021.8.3 为什么是这样判断 ？？
         if((n-k) % (k-1) != 0){
             return -1;
         }
@@ -26,7 +26,12 @@ class Solution1000 {
             presum[i+1] = presum[i]+stones[i];
             dp[i][i] = stones[i]; //只有一堆石子时，花费本身,仅仅为了k堆做铺垫
         }
-
+        /*
+            for(int i=n-2;i>=0;i--){
+                for(int j=i+1;j<n;j++){
+                }
+            }
+        */
         for(int len=2;len<=n;len++){//枚举区间长度
             for(int i=0;i+len-1<n;i++){//枚举左端点
                 int j = i+len-1;
@@ -36,12 +41,14 @@ class Solution1000 {
                 for(int p=i+k-1;p<j;p+=k-1){   //枚举中间结点,因为是每次合并k堆
                     dp[i][j] = Math.min(dp[i][p]+dp[p+1][j],dp[i][j]);
                 }
+                //2021.8.3 为什么是这样判断 ？？
                 if((j-i) % (k-1)==0){
                     dp[i][j] += (presum[j+1]-presum[i]);
                 }
             }
         }
-
+        //2021.8.3 没有理解这里为什么减去presum[n]
+        //合并完之后，[0,n]符合(i - 1) % (k - 1) == 0会生成一块价值为总和的石头，所以要减去
         return dp[0][n-1]-presum[n];
     }
 }

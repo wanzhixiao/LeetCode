@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package dfs;
 
 //冗余连接是指root[x] == root[y]

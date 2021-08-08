@@ -9,7 +9,7 @@ class Solution516 {
         int[][] dp = new int[n][n];
         for(int i=n-1;i>=0;i--){
             dp[i][i] = 1;
-            for(int j=i;j<n;j++){
+            for(int j=i;j<n;j++){                   //j = i+1,  (j-i)>=1可省略
                 if(s.charAt(i) == s.charAt(j) && (j-i)>=1){
                     dp[i][j] = dp[i+1][j-1]+2;
                 }else{

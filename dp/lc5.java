@@ -1,4 +1,4 @@
-package leetcode.dp;
+package dp;
 
 import java.util.Scanner;
 
