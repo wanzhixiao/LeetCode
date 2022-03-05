@@ -24,13 +24,68 @@ for(int len=2;len<=n;len++){       //枚举区间长度
 }
 
 ```
-1.石子合并  
+1.矩阵链乘法
+#include<bits/stdc++.h>
+
+using namespace std;
+
+typedef struct matrix{
+	int r,c;
+}matrix;
+
+int main(){
+	int n = 4;
+	int p[n+1] = {3,5,4,8,2};
+	int dp[n][n];
+
+   //初始化 
+   matrix m[n]={0,0};
+   for (int i = 0; i < n; i++)
+    {
+  		m[i].r = p[i];
+  		m[i].c = p[i+1];
+    	dp[i][i] = 0;
+    }
+	
+	for(int r=1;r<n;r++){ //枚举区间长度 
+		for(int i=0;i<n-r;i++){ //枚举左端点 
+			
+			int j = i+r;  //枚举右端点 
+			dp[i][j] = 65535;
+			
+			//从小到达求解问题 
+			for(int k=i;k<j;k++){
+				dp[i][j] = min(dp[i][j],dp[i][k]+dp[k+1][j]+m[i].r*m[k].c*m[j].c);
+//				cout << "i=" << i << " k=" << k << " j=" << j << endl;
+			}
+		}
+	}
+	cout << dp[0][n-1] << endl;
+	
+	return 0;
+} 
+
+/*
+i=0 j=1
+i=1 j=2
+i=2 j=3
+i=3 j=4
+i=0 j=2
+i=1 j=3
+i=2 j=4
+i=0 j=3
+i=1 j=4
+i=0 j=4
+*/
+
+
+2.石子合并  
 dp[i][j] = min(dp[i][p] + dp[p + 1][j] + sum(i, j)) | i <= p < j  
 dp[i][i] = 0  
 
 
 
-2.整数拆分  
+3.整数拆分  
 给定一个正整数?n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。 返回你可以获得的最大乘积。  
 
 示例 1:  
