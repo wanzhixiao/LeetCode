@@ -25,6 +25,7 @@ for(int len=2;len<=n;len++){       //枚举区间长度
 
 ```
 1.[矩阵链乘法](https://blog.csdn.net/Mister_Yu/article/details/121263055)
+[csdn](https://blog.csdn.net/weixin_43261862/article/details/105528603)
 ```c++
 #include<bits/stdc++.h>
 
