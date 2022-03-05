@@ -92,14 +92,14 @@ int main(){
     
     int len = s.length();
     int dp[len][len];
-    
+    //初始化
     for(int i = 0; i < len; i++)
 		for(int j = 0; j < len; j++) 
             dp[i][j] = 1e9;
 
     
-    for(int i=len-1;i>=0;i--){
-        for(int j=i;j<len;j++){
+    for(int i=len-1;i>=0;i--){//枚举左端点
+        for(int j=i;j<len;j++){//枚举右端点
             if(i==j){
                 dp[i][j] = 1;
             }
