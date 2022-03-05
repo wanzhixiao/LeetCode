@@ -68,13 +68,16 @@ int main(){
 } 
 
 /*
+区间长度为2,两个矩阵相乘 AiAj
 i=0 k=0 j=1
 i=1 k=1 j=2
 i=2 k=2 j=3
+区间长度为3,三个矩阵相乘 (AiAk)Aj, Ai(AkAj)
 i=0 k=0 j=2
 i=0 k=1 j=2
 i=1 k=1 j=3
 i=1 k=2 j=3
+区间长度为4,四个矩阵相乘 A0(A1A2A3) (A0A1)(A2A3) (A0A1A2)A3
 i=0 k=0 j=3
 i=0 k=1 j=3
 i=0 k=2 j=3
