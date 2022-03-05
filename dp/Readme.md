@@ -25,6 +25,7 @@ for(int len=2;len<=n;len++){       //枚举区间长度
 
 ```
 1.矩阵链乘法
+```c++
 #include<bits/stdc++.h>
 
 using namespace std;
@@ -77,7 +78,7 @@ i=0 j=3
 i=1 j=4
 i=0 j=4
 */
-
+```
 
 2.石子合并  
 dp[i][j] = min(dp[i][p] + dp[p + 1][j] + sum(i, j)) | i <= p < j  
