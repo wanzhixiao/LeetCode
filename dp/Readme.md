@@ -131,7 +131,7 @@ CAACEBBABCBEBBCACAAEEBBAAEBAAEDCEEEBECAAEAECBCCDEB
 */ 
 ```
 
-3. 最长公共子序列（LCS）
+3. [最长公共子序列](https://www.nowcoder.com/practice/6d29638c85bb4ffd80c020fe244baf11?tpId=295&tqId=991075&ru=/exam/oj&qru=/ta/format-top101/question-ranking&sourceUrl=%2Fexam%2Foj%3Ftab%3D%25E7%25AE%2597%25E6%25B3%2595%25E7%25AF%2587%26topicId%3D295)（LCS）
 ```c++
 #include<iostream>
 #include<cstring>
