@@ -1,0 +1,23 @@
+
+
+如何理解递归？
+	递归函数的参数是什么？
+	void traverse(TreeNode *cur, vector<int>& vec)
+	递归终止条件是什么？
+	if(cur == NULL) return;
+	函数的单层逻辑怎么写？
+	vector.emplace(cur->val);
+	traverse(cur->left,vec);
+	traverse(cur->right,vec);
+	
+
+二叉树
+	前序（深度优先）遍历，递归&非递归形式
+	中序遍历，递归&非递归形式
+	后序，递归&非递归形式
+	层序（广度优先遍历）
+	
+	树的高度
+	树的镜像
+	公共祖先
+	路径

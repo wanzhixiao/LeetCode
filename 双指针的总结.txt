@@ -1,0 +1,82 @@
+
+1.有序数组的平方
+1.1题目：给定一个按非递减排列的数组nums,返回每个数字的平方组成的新数组，新数组以非递减的顺序排列
+	思路1，平方后直接排序
+	vector<int> sortedSquares(vector<int> &nums) {
+		int n = nums.size();
+		for(int i=0; i<n; i++){
+			nums[i] = nums[i]*nums[i];
+		}
+		sort(nums.begin(),nums.end());
+		return nums;
+	}
+	思路2，平方后的新数组，最大值不是在数组的最左边，就是在数组的最右边。创建一个新数组存放结果，通过双指针，把平方数组
+	的和放到新数组的末尾（归并思想）
+	vector<int> sortedSquares(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> result(n,0);
+        int k = n-1;
+        for(int i=0,j=n-1;i<=j;){
+            if(nums[i]*nums[i]>nums[j]*nums[j]){
+                result[k--] = nums[i]*nums[i]; 
+                i++;
+            }else{
+                result[k--] = nums[j]*nums[j];
+                j--;
+            }
+        }
+        return result;
+    }
+	
+	
+2.长度最小子数组
+问题：给定一个数组，从中选取一个连续的子数组，使得该子数组的和sum>=target,返回该子数组的长度
+    思路1：暴力解法，枚举出所有子数组，判断这些子数组的和是否>target, 并求长度最小的那一个子数组
+   
+    思路2：使用滑动窗口
+    使用左右两个指针，遍历子数组；右指针不断往前加；过程中
+    判断窗口内的和是否>=target,是则求其长度，赋值给这个窗口的最小长度； 
+
+    窗口内是什么？                     满足>=target长度最小的子数组
+    如何移动窗口的起始位置？            如果窗口的和大于target, 窗口需要缩小，左指针右移
+    如何移动窗口的结束位置？            窗口结束位置就是遍历数组的指针
+
+    窗口内最后一次满足sum>=target的子数组长度，去更新结果的长度
+    输入：target = 7, nums = [2,3,1,2,4,3]；输出：2
+    for(int i=0,j=0;j<n;j++){
+        sum += nums[j];
+        while(sum >= target){
+            minlen = min(minlen,(j-i+1));
+            sum -= nums[i];
+            i++;
+        }
+        result = min(result,minlen);
+    }
+
+3.904. 水果成篮
+	题目：给定一排水果树，有两个篮子，每个篮子中的水果不能重复，从这排树中选一些树，最长的树的棵树。例如
+		fruits = [1,2,3,2,2], output = 4; [2,3,2,2]
+		思路1：暴力法，枚举出所有的子数组，使用set记录子数组中水果的种类数；如果set.size()>2, 则break, 
+			否则更新最长的长度为 ans = max(ans, 子数组长度)
+		思路2：滑动窗口
+			窗口是什么，里面是不超过2的水果水果树
+			右指针往前遍历
+			如果窗口内的数的种类超过2种，舍弃最左边的水果树
+		//c++unordered_map自动将元素初始化为0
+		unordered_map<int,int> m;
+		for(int i=0,j=0;j<n;j++){
+			++m[fruits[j]);
+			while(m.size()>2){//窗口内的树的种类数量大于2
+				--m[i];
+				if(m[i] == 0){ // 如果左边种类的树的棵树为0,则删除该种类
+					m[i]--;
+				}
+				i++;
+			}
+			j++;
+		}
+
+
+参考：
+https://leetcode.cn/problems/two-sum/solution/suo-you-ti-jie-de-mu-lu-lian-jie-si-wei-ecnoo/
+https://github.com/youngyangyang04/leetcode-master
