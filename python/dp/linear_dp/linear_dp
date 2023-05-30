@@ -1,0 +1,6 @@
+
+线性dp
+f[i]表示 从arr[0..i]的最大值， 最小值，方案数
+f[i]可以拆分为规模更小的子问题，如f[i-1], f[i-2]
+
+https://www.nowcoder.com/exam/oj?page=1&tab=%E7%AE%97%E6%B3%95%E7%AF%87&topicId=230

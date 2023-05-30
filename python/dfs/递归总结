@@ -1,0 +1,237 @@
+
+模板：
+递归：
+深度搜索（dfs）
+自顶向下（前序）
+    终止条件
+    do something on root
+    dfs(root.left)
+    dfs(root.right)
+
+自底向上（后序,需要向上返回）
+    终止条件
+    l = dfs(root.left)
+    r = dfs(root.right)
+    do something on l, r and root
+
+回溯
+112. 路径总和，https://leetcode.cn/problems/path-sum/
+    题意：找出和等于target的路径（从根节点到叶子节点），
+    1.使用回溯法做
+    2.递归尝试每条路径，判断路径和是否为target, 当走到叶子节点时，和不为target, 需要往回退，
+    3.细节，当叶子节点为空时（不能组成任意和），直接返回False,
+        当节点为叶子节点时（root.left==None and root.right==None），检查是否为路径和targetSum
+    class Solution:
+        def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+            #空节点
+            if root is None:
+                return False
+            if not root.left and not root.right:
+                return targetSum == 0
+            l, r = False, False
+            if root.left:
+                l = self.hasPathSum(root.left, targetSum - root.val)
+            if root.right:
+                r = self.hasPathSum(root.right,targetSum - root.val)
+            return l or r
+
+113. 路径总和2，https://leetcode.cn/problems/path-sum-ii/
+    题意：求二叉树中和为目标和的所有路径
+    1.同112题，用回溯法做
+    2.使用一个path变量（数组）记录路径上的节点值，
+        当递归到叶子节点时（root.left==None and root.right==None）将path加入到ans数组中
+    3. 横向尝试root.left和root.right，并进行回退
+    class Solution:
+        def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+            if root is None:
+                return []
+            ans = []
+            def dfs(root,path):
+                #空节点
+                if root is None:
+                    return
+                #叶子节点
+                if root.left is None and root.right is None:
+                    if sum(path) == targetSum:
+                        ans.append(path.copy())
+                    return
+                #横向尝试
+                if root.left:
+                    path.append(root.left.val)
+                    # 纵向探索
+                    dfs(root.left, path)
+                    path.pop()
+                if root.right:
+                    path.append(root.right.val)
+                    dfs(root.right, path)
+                    path.pop()
+                return
+
+            path = [root.val]
+            dfs(root, path)
+            return ans
+
+
+129. 求根节点到叶节点数字之和，https://leetcode.cn/problems/sum-root-to-leaf-numbers/
+    题意：要求找出所有从根到叶子节点组成的数字，再对数字进行求和
+    与112类似，使用回溯法求路径上的数字，当走到叶子节点时，进行求和；
+        然后回退到父节点
+     横向有两种选择： root.left, root.right
+     纵向这是往下递归下一层节点
+    class Solution:
+        def sumNumbers(self, root: Optional[TreeNode]) -> int:
+            ans = 0
+            def dfs(root, path):
+                nonlocal ans
+                if not root.left and not root.right:
+                    ans += path
+                    return
+                if root.left:
+                    path = path*10 + root.left.val
+                    dfs(root.left, path)
+                    path = (path - path%10)//10
+                if root.right:
+                    path = path*10 + root.right.val
+                    dfs(root.right, path)
+                    path = (path - path%10)//10
+            path = root.val
+            dfs(root, path)
+            return ans
+
+437. 路径总和 III， https://leetcode.cn/problems/path-sum-iii/
+    题意：找出所有和=target的路径条数， 路径可以不是从根节点出发
+    '''
+    思考：
+        1.递归终止条件
+            root是叶子节点，则返回
+        2.判断pathsum是否=targetsum
+            是 ans+=1
+            继续递归
+        2.使用回溯法， 向下进行遍历
+        3. 当pathsum > targetSum时， pathSum = root.val, 否则可以继续加
+
+                            5
+                           / \
+                          4   8
+                        /    / \
+                       11   13  4
+                      / \      / \
+                     7   2     5  1
+
+        targetSum = 22
+
+                       1
+                      / \
+                    -2  -3
+                    / \ /
+                   1  3 -2
+                  /
+                 -1
+                 targetSum = -1
+    '''
+   方法1：前序遍历
+    class Solution:
+        ans = 0
+        def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+            def rootSum(root, s):
+                if root is None:
+                    return
+                if s == root.val:
+                    self.ans += 1
+                rootSum(root.left, s-root.val)
+                rootSum(root.right, s-root.val)
+
+            if root:
+                rootSum(root, targetSum)
+                self.pathSum(root.left, targetSum)
+                self.pathSum(root.right, targetSum)
+            return self.ans
+
+    方法2： 遍历以每个节点为起点的路径（后序遍历，向上返回路径条数）
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        if not root:
+            return 0
+        ans = 0
+
+        def dfs2(root, targetSum):
+            if not root:
+                return 0
+            #从当前节点(root)出发的路径和是否等于targetSum
+            ret = 0
+            if root.val == targetSum:
+                ret += 1
+            ret += dfs2(root.left, targetSum-root.val)
+            ret += dfs2(root.right, targetSum-root.val)
+            return ret
+
+        #使用root节点组成targetSum
+        ret = dfs2(root, targetSum)
+        #不使用root节点组成targetSum
+        ret += self.pathSum(root.left, targetSum)
+        ret += self.pathSum(root.right, targetSum)
+        return ret
+
+    总结：这题有难度，需要二刷
+        要点：（1）路径不一定从根节点开始，（2）root.val == targetSum, 并且子树路径sub_tree_sum == 0,  也是一条path
+
+
+
+103. 二叉树的锯齿形层序遍历
+    题目：给定一棵二叉树，输出锯齿形遍历
+   				1
+			   / \
+			  2  3
+			/ \ / \
+		   4  5 6 7
+    思路1：层序遍历，用数组存放每一层的节点值，如果是偶数层，将数组进行反转
+    思路2：深度优先遍历，深度优先遍历不知道层数，因此自顶向下时需要往下传一个层数，如果传的层数是第一次出现
+        depth = len(result), depth从0开始记录层数，result为二维数组，记录翻转后的结果
+        开辟一个新的数组记录节点值
+       2. 当奇数层时，depth%2，不需要反转， 偶数层需要翻转
+       3. 递归遍历左右子树
+
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        ans = []
+        def dfs(root, depth):
+            nonlocal ans
+            if root is None:
+                return
+            if depth == len(ans):
+                ans.append([])
+            if depth % 2 == 0:
+                ans[depth].append(root.val)
+            else:
+                ans[depth].insert(0,root.val)
+            dfs(root.left, depth+1)
+            dfs(root.right, depth+1)
+        dfs(root, 0)
+        return ans
+剑指 Offer II 046. 二叉树的右侧视图
+                1
+               / \
+              2   3
+             /     \
+            5       4
+    输出每层最右边的节点： [1,3,4]
+    思路1：同样用层序遍历，记录每层最后一个节点
+    思路2：深度优先遍历，使用result数组，每次往下时传递一个depth变量， 当len(depth) == result时，记录该节点的值
+        继续递归左，右子树
+        注意: 需要先递归右子树再递归左子树，这样递归时右边先到达下一层
+        def rightSideView(self, root: TreeNode) -> List[int]:
+            ans = []
+            def dfs(root, depth):
+                # 递归终止条件
+                if root is None:
+                    return
+                #继续往下递归前的操作
+                if depth == len(ans):
+                    ans.append(root.val)
+                #递归两边的子树，深度+1
+                dfs(root.right, depth+1)
+                dfs(root.left, depth+1)
+            dfs(root, 0)
+        return ans
+
+
+
+
