@@ -1,6 +1,6 @@
 
 
-如何理解递归？
+1.如何理解递归？
 	递归函数的参数是什么？
 	void traverse(TreeNode *cur, vector<int>& vec)
 	递归终止条件是什么？
@@ -11,7 +11,7 @@
 	traverse(cur->right,vec);
 	
 
-二叉树
+2.二叉树问题
 	前序（深度优先）遍历，递归&非递归形式
 	中序遍历，递归&非递归形式
 	后序，递归&非递归形式
@@ -21,3 +21,122 @@
 	树的镜像
 	公共祖先
 	路径
+
+3.二叉树的统一遍历模板
+	从根节点开始预测,
+	先序遍历：根左右，节点入栈的顺序应该是右左根 + NULL,  加NULL的目的是为了下一个节点能访问到栈顶的节点
+	中序遍历：左根右，节点入栈的顺序应该是右根左 + NULL, 加NULL的目的同先序
+	后序遍历：左右根，节点入栈的顺序应该是根右左 + NULL, 加NULL的目的同先序
+	
+												1
+											   / \
+											  2   3
+											 / \
+											4   5
+							入栈：父节点1； 3,2,1, NULL						3,2,1,NULL
+							出栈：NULL出栈, 访问栈顶的1, 1出栈				3,2
+							入栈：父节点2, 5,4,2,NULL入栈					3,5,4,2,NULL
+							出栈：NULL出栈,访问栈顶的2,2出栈				3,5,4
+							入栈：父节点4，4没有孩子节点，4，NULL入栈		3,5,4,NULL
+							出栈：NULL出栈，访问栈顶的4,4出栈				3,5
+							入栈：父节点5, 5没有孩子节点，5、NULL入栈		3,5,NULL
+							出栈：NULL出栈，访问栈顶的5,5出栈				3
+							入栈：父节点3, 3没有孩子节点，3、NULL入栈		3,NULL
+							出栈：NULL出栈，访问栈顶的3,3出栈				
+							栈为空，遍历结束
+						
+	void traverse(TreeNode *root){
+		stack<TreeNode*> stk;
+		vector<int> ans;
+		if(root != nullptr){
+			stk.emplace(root);
+		}
+		while(!stk.empty()){
+			root = stk.top();
+			if(root != nullptr){
+				stk.pop();
+				//放这里就是后序
+				//stk.emplace(root->right);			如果右节点是空，则无需入栈
+				if(root->right){
+					stk.emplace(root->right);
+				}
+				//放这里就是中序
+				if(root->left){			
+					stk.emplace(root->left);
+				}
+				//放这里就是前序
+				stk.emplace(root);
+				stk.emplace(nullptr);
+			}else{
+				stk.pop();
+				root = stk.top();
+				stk.pop();
+				ans.emplace_back(root->val);
+			}
+		}
+		return;
+	}
+	
+4.二叉树的公共祖先问题
+问题：给定一棵树root,和两个节点p,q；找到p和q最近的父节点
+													3
+												   / \
+												  5   1
+												 / \ / \
+												6  2 0  8
+											      / \
+												 7   4
+	tree = [3,5,1,6,2,0,8,null,null,7,4], 
+	p=5, q = 1的最近公共祖先
+	p = 5, q = 4的最近公共祖先
+	
+如何判断节点是p或者q的父节点？
+	祖先的定义：若节点 p 在节点root 的左（右）子树中，或 p=root ，则称root 是 p 的祖先。
+	向左子树和右子树遍历，如果找到p或q,就将p或q返回；一层一层返回到根节点。以6,4的公共祖先为例，分别向root的左右子树找，将6和
+
+	情况1：如果root为空，则直接返回root
+	情况2：向下遍历，如果遇到p节点，则将p返回；如果遇到q节点，则将q返回，当左右子树都不为空的，找到了最近的root节点
+	情况3：root节点本身就是p或者q之一，直接将p返回
+
+5. 二叉搜索树
+nums = [5,4,6,null,null,3,7]
+													5
+												   / \
+												  4   6
+												     / \
+													3   7
+二叉搜索树中，左子树的所有节点<根节点的值  根节点值 < 右子树所有节点的值；注意，这里的<是严格小于，不是<=; 
+以下的判断代码是不够的		
+if (root->val > root->left->val && root->val < root->right->val) {
+    return true;
+} else {
+    return false;
+}
+
+使用一个前继节点，当前继节点的值>=root->值，返回false
+class Solution {
+public:
+    TreeNode *pre = NULL;
+    bool isValidBST(TreeNode* root) {
+        return traverse(root);
+    }
+
+    bool traverse(TreeNode *root){
+        if(root == NULL){
+            return true;
+        }
+        bool left = traverse(root->left);
+        if(pre != NULL && pre->val >= root->val){
+            return false;
+        }
+        pre = root;
+        bool right = traverse(root->right);
+        return left && right;
+    }  
+};
+
+
+6.二叉树的总结
+	函数参数是什么;
+	递归终止条件是什么;
+	单层逻辑是什么;

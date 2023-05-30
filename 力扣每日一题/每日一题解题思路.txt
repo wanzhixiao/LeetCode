@@ -1,0 +1,27 @@
+2023.3.18
+1616. 分割两个字符串得到回文串
+	a的左半部分与b的右半部分，  再判断公共部分 a[left, right]是否为回文字符串, 或者b[left, right]是否为回文字符串
+	b的左半部分与a的右半部分，同上
+
+2023.4.15 
+不邻接种花
+	总共有4中花， n个花坛，相邻的花坛的不能种相同的花，求一种可行的种花方法
+	例如：
+	输入：n = 3, paths = [[1,2],[2,3],[3,1]]
+	输出：[1,2,3]
+	链接：https://leetcode.cn/problems/flower-planting-with-no-adjacent
+
+	思路：
+		刚开始想的是连通分量，为连通分量中的每个花坛种上不同的花
+		但是连通分量的节点数量>4， 会出现相邻的重复现象
+				4-1,4-2,4-5, 怎样去为每相邻的两个花坛种上不同的花？
+	思路2：暴力法
+		1. 遍历每个点i
+		2.统计其相邻节点的颜色cj，记录至，集合color
+		3.从color中不包含的{1,2,3,4}中选择一个元素ci， 将i点的颜色标记为ci
+	思路3：位运算
+		参考https://leetcode.cn/problems/flower-planting-with-no-adjacent/solution/liang-chong-xie-fa-ha-xi-biao-shu-zu-wei-7hm8/
+				
+			
+
+	

@@ -1,0 +1,10 @@
+子数组问题：
+
+https://leetcode.cn/problems/A1NYOS/solution/chang-jian-zi-shu-zu-wen-ti-tong-yong-ji-v0n4/
+
+dp数组无后效性
+https://leetcode.cn/problems/maximum-subarray/solution/dong-tai-gui-hua-fen-zhi-fa-python-dai-ma-java-dai/
+
+
+动态规划子数组问题：
+https://leetcode.cn/problems/maximum-product-subarray/solution/cheng-ji-zui-da-zi-shu-zu-by-leetcode-solution/

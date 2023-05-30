@@ -1,0 +1,53 @@
+class Solution:
+    def countCompleteComponents(self, n: int, edges: List[List[int]]) -> int:
+
+        g = [[] for _ in range(n)]
+        for x,y in edges:
+            g[x].append(y)
+            g[y].append(x)
+
+        #统计每个连通块的点的数量和边的数量
+        vis = [False for _ in range(n)]
+
+        def dfs(v):
+            nonlocal node_cnt, edge_cnt
+            if vis[v]:
+                return
+            vis[v] = True
+            node_cnt += 1
+            edge_cnt += len(g[v])
+
+            for x in g[v]:
+                if not vis[x]:
+                    dfs(x)
+            return
+
+        ans = 0
+        for i in range(n):
+            node_cnt, edge_cnt = 0,0
+            if not vis[i]:
+                dfs(i)
+                if  (node_cnt-1)*node_cnt == edge_cnt:
+                    ans += 1
+
+        return ans
+
+'''
+   思路：统计每个连通子图中点的数量和边的数量
+	由于是无向图，所以边的总数为右向图的2倍
+	
+	edge_cnt = node_cnt/2
+	2*|E| = |V|
+	
+	任意两个点之间都有边的组合数量 C(n,2) = n*(n-1)/2 = edge_cnt
+
+
+
+    Cn2 = n*(n-1)/1*2
+
+    2 * (2-1) = 1
+
+
+    n*(n-1) = edge_cnt * 2
+
+'''

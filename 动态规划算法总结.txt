@@ -1,0 +1,33 @@
+
+动态规划五步曲
+1.确定dp数组以及下标的含义
+2.确定递推公式
+3.dp数组如何初始化
+4.确定遍历顺序
+5.举例推导dp数组
+
+其中，举例推导状态转移公式、打印dp数组日志这两步是必要的
+
+
+别人关于动态规划算法的总结：
+https://leetcode.cn/problems/burst-balloons/solution/chao-xiang-xi-hui-su-dao-fen-zhi-dao-dp-by-niu-you/
+https://leetcode.cn/problems/last-stone-weight-ii/solution/yi-pian-wen-zhang-chi-tou-bei-bao-wen-ti-5lfv/
+
+
+什么是最优子结构：如果一个问题的解包括其子问题的最优解，就称此问题具有最优子结构
+例如数组类：nums = [0,4,5,2], 字符串类s = "banana"此类； 一般有两种拆分子问题的方法，
+一种是以i结尾的子问题的最优解是多少，定义dp[i]表示以i结尾的...,  一般dp[i]可以由，dp[i-1], 
+或者是dp[j] 0<=j<i 递推而来；
+另一种是以i开头，以j结尾的子问题最优解是多少，定义dp[i][j]表示从i到j的子问题的最优解
+dp[i][j]也可以由dp[i-1][j], dp[i][j-1], dp[i-1][j-1]等状态递推而来，或者经由区间中的某个点k，
+将区间[i,j]划分成两个子区间，dp[i][k],dp[k][j]，表示dp[i][j]可以拆分成dp[i][k]和dp[k][j]两个部分
+
+
+如何初始化
+	一般是根据求解的目标，
+
+关于枚举顺序
+	动态规划是由子问题推范围更大的问题，先要报范围小的子问题求解出来，在求大的问题
+
+coder_cpp xwz123.66
+
